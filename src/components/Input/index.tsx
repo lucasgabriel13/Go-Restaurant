@@ -3,14 +3,26 @@ import {
   useRef,
   useState,
   useCallback,
-} from 'react';
+  InputHTMLAttributes,
+  JSXElementConstructor,
+} from "react";
 
-import { useField } from '@unform/core';
+import { useField } from "@unform/core";
 
-import { Container } from './styles';
+import { Container } from "./styles";
+import { IconBaseProps } from "react-icons";
 
-const Input = ({ name, icon: Icon, ...rest }) => {
-  const inputRef = useRef(null);
+type Icon = JSXElementConstructor<IconBaseProps> & {
+  size: number;
+};
+
+type Props = InputHTMLAttributes<HTMLInputElement> & {
+  name: string;
+  icon?: Icon;
+};
+
+const Input = ({ name, icon: Icon, ...rest }: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
@@ -31,7 +43,7 @@ const Input = ({ name, icon: Icon, ...rest }) => {
     registerField({
       name: fieldName,
       ref: inputRef.current,
-      path: 'value',
+      path: "value",
     });
   }, [fieldName, registerField]);
 
